@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Content - Redirecting...</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_PUB_ID" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0056b3;
+        }
+        #ad-container {
+            margin: 30px auto;
+            width: 300px; /* Example size, adjust as needed */
+            height: 250px; /* Example size, adjust as needed */
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #redirect-message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #555;
+        }
+        .countdown {
+            font-weight: bold;
+            color: #d9534f;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Loading Your Content...</h1>
+        <p id="redirect-message">You will be redirected in <span class="countdown" id="countdown">5</span> seconds.</p>
+
+        <div id="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:250px"
+                 data-ad-client="YOUR_ADSENSE_PUB_ID"
+                 data-ad-slot="YOUR_ADSENSE_AD_SLOT_ID"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <p>Thank you for your patience and support!</p>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const redirectDelaySeconds = 5; // How long to wait before redirecting
+
+        // THIS IS THE CRITICAL PART: How the targetUrl is set
+        // It MUST be populated by your server-side script based on the codename lookup.
+        // Example if using PHP: const targetUrl = "<?php echo htmlspecialchars($_GET['targetUrl']); ?>";
+        // Example if using Node.js/Express with a template engine: const targetUrl = "<%= targetUrl %>";
+        // For a simple static test, you can hardcode it for now:
+        const targetUrl = "/numaracyninja.ppt"; // REPLACE THIS WITH YOUR ACTUAL URL
+
+        // --- Do Not Edit Below This Line (unless you know what you're doing) ---
+
+        let countdownElement = document.getElementById('countdown');
+        let countdown = redirectDelaySeconds;
+
+        function updateCountdown() {
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                if (targetUrl && targetUrl !== "/numaracyninja.ppt") { // Basic check if targetUrl was set
+                    window.location.replace(targetUrl);
+                } else {
+                    // Fallback or error if targetUrl isn't set (e.g., if accessed directly without server-side logic)
+                    document.getElementById('redirect-message').textContent = "Error: Destination URL not found. Please try again.";
+                    console.error("Target URL not set for redirection.");
+                }
+            } else {
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        window.onload = function() {
+            updateCountdown();
+        };
+    </script>
+</body>
+</html>
